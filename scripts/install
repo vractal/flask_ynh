@@ -68,7 +68,7 @@ function install_dependencies()
                                  python3-dev \
                                  python3-virtualenv \
                                  python3-pip \
-                                 $db_dependencies                             
+                                 $db_dependencies
 }
 
 function init_venv()
@@ -76,9 +76,10 @@ function init_venv()
     mkdir -p $final_path
     pushd $final_path
     virtualenv -p python3 venv
-    set +o nounset 
+    set +o nounset
     source venv/bin/activate
-    set -o nounset 
+    set -o nounset
+    pip install pyyaml
     pip install Flask
     pip install Flask-Script
     pip install Flask-SQLAlchemy
@@ -103,7 +104,7 @@ function init_db()
 
     elif [ "$db_type" = 'sqlite' ]
     then
-        # Initialize sqlite database  
+        # Initialize sqlite database
         # TODO: password
         ynh_sqlite_create_db $db_name
         readonly db_host=""
@@ -139,9 +140,9 @@ function configure_flask_app()
 
     # Init db
     pushd $final_path
-    set +o nounset 
+    set +o nounset
     source venv/bin/activate
-    set -o nounset 
+    set -o nounset
     ./manage.py nuke
     ./manage.py lorem
     popd
